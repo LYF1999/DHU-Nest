@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'django_filters',
 
+    'post',
+    'section',
     'profile',
+    'comment'
 ]
 
 MIDDLEWARE = [
