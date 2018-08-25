@@ -1,8 +1,9 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework import permissions
+from rest_framework import permissions, response, status
+from rest_framework.decorators import action
 from profile.models import Profile
 from profile.permissions import ProfilePermission
-from profile.serializers import ProfileSerializer, CreateUserSerializer
+from profile.serializers import ProfileSerializer, CreateUserSerializer, UserSerializer
 
 
 class ProfileViewSets(ModelViewSet):
@@ -14,5 +15,9 @@ class ProfileViewSets(ModelViewSet):
         if self.action == 'create':
             return CreateUserSerializer
         return ProfileSerializer
+
+    @action(detail=False, permission_classes=(permissions.IsAuthenticated,))
+    def info(self, request):
+        return response.Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
 
 

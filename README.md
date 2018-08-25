@@ -11,5 +11,5 @@
 
 - `pipenv install`
 - `docker-compose -f  docker-compose.dev.yaml up`
-- `python manage.py migrate` 数据库建表(只在当数据库变动的时候需要运行)
-- `python manage.py runserver` 启动
+- `pipenv run python manage.py migrate` 数据库建表(只在当数据库变动的时候需要运行)
+- `pipenv run python manage.py runserver` 启动
