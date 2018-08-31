@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'post',
     'section',
     'profile',
-    'comment',
     'collection'
 ]
 
@@ -60,6 +59,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'config.urls'
+
+ES_INDEX = 'dhu-nest'
 
 TEMPLATES = [
     {

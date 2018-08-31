@@ -18,7 +18,11 @@ def get_only_owner_can_write(field):
 
         def has_object_permission(self, request, view, obj):
             if request.method not in permissions.SAFE_METHODS:
-                return getattr(obj, field) == request.user
+                owner = getattr(obj, field)
+                if type(owner) == int:
+                    return owner == request.user.id
+
+                return owner == request.user
             return True
 
     return OnlyOwnCanWrite
