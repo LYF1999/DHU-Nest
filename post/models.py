@@ -1,13 +1,13 @@
-from django.db import models
-from django.contrib.auth.models import User
+import datetime
+from utils.ESModel import ESModel
 
 
-# Create your models here.
-class Post(models.Model):
-    title = models.CharField(max_length=255)
-    content = models.TextField()
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    created_time = models.DateTimeField(auto_now_add=True)
-    updated_time = models.DateTimeField(auto_now=True)
+class Post(ESModel):
 
-
+    def __init__(self, id: str, title: str, author: int, content: str, created_time, updated_time):
+        self.title = title
+        self.id = id
+        self.author = author
+        self.content = content
+        self.created_time = created_time or datetime.datetime.now()
+        self.updated_time = updated_time or datetime.datetime.now()
