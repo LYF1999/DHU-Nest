@@ -16,7 +16,7 @@ class PostService(object):
 
     @classmethod
     def find_posts_by_user_id(cls, id):
-        return Post.filter(author=id)
+        return Post.filter(author=id, sort={"updated_time": {"order": "desc"}})
 
     @classmethod
     def get_by_id(cls, id):
