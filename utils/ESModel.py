@@ -12,13 +12,12 @@ class ESMetaClass(type):
         cls.__doc_type__ = name
         _class = type.__new__(cls, name, bases, attrs)
         _class.__doc_type__ = name
-        print(_class)
         return _class
 
 
 class ESModel(object, metaclass=ESMetaClass):
 
-    def destroy(self):
+    def delete(self):
         es.delete(index=settings.ES_INDEX, doc_type=self.__doc_type__, id=self.id)
         return None
 
@@ -33,7 +32,12 @@ class ESModel(object, metaclass=ESMetaClass):
 
     @classmethod
     def filter(cls, **kwargs):
-        res = es.search(index=settings.ES_INDEX, doc_type=cls.__doc_type__, body={"query": {"term": kwargs}})['hits']['hits']
+        sort = kwargs.pop('sort')
+        res = es.search(
+            index=settings.ES_INDEX,
+            doc_type=cls.__doc_type__,
+            body={"query": {"term": kwargs}, "sort": sort})['hits']['hits']
+        
         return [cls(**item['_source']) for item in res]
 
     @classmethod

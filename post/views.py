@@ -1,5 +1,6 @@
 from rest_framework import viewsets, permissions
 from .serializers import PostSerializer
+from elasticsearch import exceptions
 from utils.permissions import get_only_owner_can_write
 from utils.decorators import with_es_exceptions
 from .services import PostService
@@ -10,7 +11,10 @@ class PostViewSets(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        return PostService.find_posts_by_user_id(self.request.user.id)
+        try:
+            return PostService.find_posts_by_user_id(self.request.user.id)
+        except exceptions.RequestError:
+            return []
 
     @with_es_exceptions
     def get_object(self):
